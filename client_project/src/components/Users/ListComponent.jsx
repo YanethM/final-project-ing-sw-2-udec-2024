@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { User } from "../../api/user";
-import { getUsers } from "../../slices/userSlice";
+import { getUsers } from "../../slices/userSlice"; 
+import { Table, Avatar } from "antd";
 
 export const ListComponent = () => {
   const dispatch = useDispatch();
@@ -12,29 +13,53 @@ export const ListComponent = () => {
     const fetchUsers = async () => {
       try {
         const usersData = await userApi.getUsers();
-        dispatch(getUsers(usersData)); // Despacha una acción para actualizar el estado de los usuarios
+        dispatch(getUsers(usersData)); 
       } catch (error) {
         console.error("Failed to fetch users", error);
       }
     };
 
     fetchUsers();
-  }, [dispatch]); // Añade dispatch al array de dependencias
+  }, [dispatch]); 
+
+  const columns = [
+    {
+      title: 'Avatar',
+      dataIndex: 'avatar',
+      key: 'avatar',
+      render: (text, record) => (
+        <Avatar src={record.avatar} />
+      ),
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+    },
+    {
+      title: 'User Name',
+      dataIndex: 'user_name',
+      key: 'user_name',
+    },
+    {
+      title: 'Last Name',
+      dataIndex: 'last_name',
+      key: 'last_name',
+    },
+    {
+      title: 'Active',
+      dataIndex: 'active_user',
+      key: 'active_user',
+      render: (text, record) => (
+        <span>{record.active_user ? 'Yes' : 'No'}</span>
+      ),
+    },
+  ];
 
   return (
     <>
       <h2>Users List</h2>
-      {users.length > 0 ? (
-        <ul>
-          {users.map((user) => (
-            <li key={user.id}>
-              <span>{user.email}</span> - <span>{user.user_name} {user.last_name}</span>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No users found.</p>
-      )}
+      <Table dataSource={users} columns={columns} rowKey="id" />
     </>
   );
 };
