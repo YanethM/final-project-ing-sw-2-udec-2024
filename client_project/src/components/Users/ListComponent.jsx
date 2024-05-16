@@ -1,15 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { User } from "../../api/user";
+import { getUsers } from "../../slices/userSlice";
 
 export const ListComponent = () => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.user.users); 
   const userApi = new User();
 
-  useEffect(async() => {
-   await userApi.getUsers();
-  }, []);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const usersData = await userApi.getUsers();
+        dispatch(getUsers(usersData)); // Despacha una acción para actualizar el estado de los usuarios
+      } catch (error) {
+        console.error("Failed to fetch users", error);
+      }
+    };
+
+    fetchUsers();
+  }, [dispatch]); // Añade dispatch al array de dependencias
 
   return (
     <>

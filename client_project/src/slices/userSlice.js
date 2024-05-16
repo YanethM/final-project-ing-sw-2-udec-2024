@@ -34,6 +34,10 @@ export const userSlice = createSlice({
 
     },
 
+    getUsers: (state, action) => {
+      state.users = action.payload;
+    },
+
     getUserById: (state, action) => {
       console.log("getUserById action triggered with id:", action.payload);
     },
@@ -52,5 +56,5 @@ export const userSlice = createSlice({
   },
 });
 
-export const {addUser, getUserById, editUserById, deleteUserById} = userSlice.actions;
+export const {addUser, getUserById, editUserById, deleteUserById, getUsers} = userSlice.actions;
 export default userSlice.reducer;
