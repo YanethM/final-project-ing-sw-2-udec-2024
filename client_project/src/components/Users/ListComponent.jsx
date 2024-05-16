@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { User } from "../../api/user";
-import { getUsers } from "../../slices/userSlice"; 
+import { getUsers, deleteUserById } from "../../slices/userSlice"; 
 import { Table, Avatar, Space, Tooltip, Modal, Form, Input, Switch } from "antd";
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
@@ -39,6 +39,7 @@ export const ListComponent = () => {
       content: 'Esta opcion no se puede revertir',
       onOk() {
         console.log("Delete user with id:", id);
+        dispatch(deleteUserById(id));
       },
       onCancel() {
         console.log('Cancel delete');
@@ -126,7 +127,7 @@ export const ListComponent = () => {
   ];
 
   return (
-    <>
+    <div className="container">
       <h2>Users List</h2>
       <Table dataSource={users} columns={columns} rowKey="id" />
       {selectedUser && (
@@ -167,6 +168,6 @@ export const ListComponent = () => {
           </Form>
         </Modal>
       )}
-    </>
+    </div>
   );
 };

@@ -54,7 +54,7 @@ export class User {
       console.log(URL);
       const params = {
         method: "PATCH",
-        body: JSON.stringify(updatedData), // Convert updated data to JSON string
+        body: JSON.stringify(updatedData),
       };
       const response = await fetch(URL, params);
       const result = await response.json();

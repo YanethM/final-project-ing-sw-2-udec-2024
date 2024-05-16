@@ -51,7 +51,7 @@ export const userSlice = createSlice({
     },
 
     deleteUserById: (state, action) => {
-      return initialState;
+      state.users = state.users.filter(user => user.id !== action.payload);
     },
   },
 });
